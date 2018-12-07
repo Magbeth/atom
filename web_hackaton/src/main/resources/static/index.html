@@ -9,8 +9,11 @@
         <input value="Login" style="font-size:large" type="submit">
     </form>
 </div>
+<strong class="leftLabel">History</strong>
+<strong class="rightLabel">Online users</strong>
 <div id="body">
     <div id="history" class="chat form"></div>
+    <div id="users" class="chat form"></div>
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
@@ -23,7 +26,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
-    var host = "localhost";
+    var host = "192.168.1.7";
     var port = 8080;
 
 
@@ -79,7 +82,22 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
+    function loadOnlineUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+        $.ajax(settings).done(function (response) {
+            $("#users").html(response.replace(/\n/g, "<br />"));
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
 
     loadHistory();
+    loadOnlineUsers()
     setInterval(loadHistory, 10000);
+    setInterval(loadOnlineUsers, 10000);
 </script>
