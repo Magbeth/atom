@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import ru.atom.lecture07.server.controller.ChatController;
 import ru.atom.lecture07.server.dao.MessageDao;
 import ru.atom.lecture07.server.dao.UserDao;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,10 +22,16 @@ public class ChatService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
     private MessageDao messageDao;
 
     @Nullable
-    @Transactional
+    public List<User> getAllUsers() {
+        return (List<User>) userDao.findAll();
+    }
+
+    @Nullable
     public User getLoggedIn(@NotNull String name) {
         return userDao.getByLogin(name);
     }
@@ -38,6 +46,28 @@ public class ChatService {
     @NotNull
     @Transactional
     public List<User> getOnlineUsers() {
-        return new ArrayList<>(userDao.findAll());
+        return (List<User>) userDao.findAll();
     }
+
+    public void logout(@NotNull User user) {
+        userDao.delete(user);
+        log.info("[" + user.getLogin() + "] logged out");
+    }
+
+    @Nullable
+    public List<Message> getAllMessages() {
+        return (List<Message>) messageDao.findAll();
+    }
+
+    public void sendMessage(@NotNull String name, @NotNull String msg) {
+        User user = userDao.getByLogin(name);
+        Message message = new Message();
+        message.setTime(new Date());
+        message.setUser(user);
+        message.setValue(msg);
+        messageDao.save(message);
+        log.info("[" + name + "]: " + msg);
+    }
+
+
 }
