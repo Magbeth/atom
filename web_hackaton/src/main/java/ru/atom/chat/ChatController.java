@@ -65,12 +65,17 @@ public class ChatController {
     /**
      * curl -i localhost:8080/chat/online
      */
+
+    /**
+     * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
+     */
     @RequestMapping(
             path = "online",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
     }
 
     /**
@@ -81,10 +86,21 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
-    }
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        if (name.length() < 1) {
+            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+        }
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("Name is not logged in :(");
+        }
 
+        usersOnline.remove(name);
+        messages.add("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
@@ -94,7 +110,15 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String message) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("This user is not logged in :( He can't chatting!");
+        } else if (message.trim().length() < 1) {
+            return ResponseEntity.badRequest().body("This message is too short :(");
+        } else if (message.trim().length() > 250) {
+            return ResponseEntity.badRequest().body("This message is too long :(");
+        }
+        messages.add("[" + name + "] " + message);
+        return ResponseEntity.ok().build();
     }
 }
