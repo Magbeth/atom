@@ -8,7 +8,6 @@ GameEngine = Class.extend({
     bonusesPercent: 16,
 
     stage: null,
-    menu: null,
     players: [],
     tiles: [],
     bombs: [],
@@ -75,7 +74,11 @@ GameEngine = Class.extend({
         createjs.Sound.registerSound("sound/bomb.ogg", "bomb");
         // createjs.Sound.registerSound("sound/game.ogg", "game");
 
+<<<<<<< HEAD
         this.menu = new Menu();
+=======
+
+>>>>>>> 34860c0c36deca5763c2d2965336f6d466f968bb
     },
 
     setup: function() {
@@ -102,10 +105,6 @@ GameEngine = Class.extend({
             if (this.soundtrackLoaded) {
                 this.playSoundtrack();
             }
-        }
-
-        if (!this.playing) {
-            this.menu.show();
         }
     },
 
@@ -140,7 +139,7 @@ GameEngine = Class.extend({
         }
 
         // Menu
-        gGameEngine.menu.update();
+        // gGameEngine.menu.update();
 
         // Stage
         gGameEngine.stage.update();

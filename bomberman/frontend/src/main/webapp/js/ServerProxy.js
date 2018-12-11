@@ -1,7 +1,13 @@
 ServerProxy = Class.extend({
+<<<<<<< HEAD
     gameServerUrl: "localhost:8090",
     matchMakerUrl: "localhost:8080/matchmaker/join",
     gameId: "1234",
+=======
+
+    host: "localhost:8090",
+    sessionId: "1234",
+>>>>>>> 34860c0c36deca5763c2d2965336f6d466f968bb
 
     socket: null,
 
@@ -60,7 +66,11 @@ ServerProxy = Class.extend({
 
     connectToGameServer: function (gameId, login) {
         var self = this;
+<<<<<<< HEAD
         this.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
+=======
+        this.socket = new WebSocket("ws://" + this.host + "/game?session=" + this.sessionId);
+>>>>>>> 34860c0c36deca5763c2d2965336f6d466f968bb
 
         this.socket.onopen = function () {
             console.log("Connection established.");
