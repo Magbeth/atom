@@ -16,7 +16,7 @@ public class EventClient {
         WebSocketSession session = null;
         try {
             // The socket that receives events
-            EventHandler socket = new EventHandler();
+            MessageHandler socket = new MessageHandler();
             // Make a handshake with server
             ListenableFuture<WebSocketSession> fut = client.doHandshake(socket, uri);
             // Wait for Connect

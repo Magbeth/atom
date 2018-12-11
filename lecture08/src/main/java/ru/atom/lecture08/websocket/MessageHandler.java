@@ -42,7 +42,7 @@ public class MessageHandler extends TextWebSocketHandler implements WebSocketHan
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         String payload = message.getPayload();
         String topic = JsonHelper.getJsonNode(payload).get("topic").textValue().toLowerCase();
         switch (topic) {
