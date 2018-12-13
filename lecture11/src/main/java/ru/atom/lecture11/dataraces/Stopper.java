@@ -10,7 +10,7 @@ public class Stopper {
     public static final int HUNDRED_MILLION = 100_000_000;
     private AtomicInteger counter = new AtomicInteger();
 
-    public boolean stop() {
+    boolean stop() {
         return counter.incrementAndGet() > HUNDRED_MILLION;
     }
 }

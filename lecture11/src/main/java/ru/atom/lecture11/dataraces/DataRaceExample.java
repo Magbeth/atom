@@ -15,5 +15,6 @@ public class DataRaceExample {
 
         System.out.println("Expected: " + Stopper.HUNDRED_MILLION);
         System.out.println("Result: " + thread1.getValue());
+        System.out.println("Result: " + thread2.getValue());
     }
 }

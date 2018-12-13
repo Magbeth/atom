@@ -1,8 +1,10 @@
 package ru.atom.lecture11.dataraces;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public final class RacingThread extends Thread {
     private final Stopper checker;
-    private static int value;
+    private static AtomicInteger value = new AtomicInteger();
 
     public RacingThread(Stopper checker) {
         this.checker = checker;
@@ -15,10 +17,10 @@ public final class RacingThread extends Thread {
     }
 
     public void increment() {
-        value++;
+        value.incrementAndGet();
     }
 
-    public int getValue() {
+    public AtomicInteger getValue() {
         return value;
     }
 }
