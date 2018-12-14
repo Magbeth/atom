@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.atom.lecture08.websocket.dao.MessageDao;
+import ru.atom.lecture08.websocket.dao.MessageDaoImpl;
 import ru.atom.lecture08.websocket.dao.UserDao;
+import ru.atom.lecture08.websocket.dao.UserDaoImpl;
 import ru.atom.lecture08.websocket.model.Message;
 import ru.atom.lecture08.websocket.model.User;
 
